@@ -6,6 +6,21 @@ A commission fee calculator for Paysera
 
 * `Node`
 
+## Install dependencies
+
+* `npm install`
+
+## Test app
+
+To test the app run:
+
+* `npm run build`
+* `node dist/app.js data/input.json`
+
+To run tests:
+
+* `npm run test`
+
 ### Scripts
 
 * `transpile` - convert es6 and beyond code to es5 to a dir named `dist`
@@ -13,10 +28,10 @@ A commission fee calculator for Paysera
 * `build` - clean and transpile
 * `lint` - run lint (airbnb styleguide extended)
 * `test` - run tests (jest)
-* `node app.js data/input.json` - run compiled app and data input as parameter (input json is located to data dir)
 
 ### Running Dev Server
 
-* `npm run watch:dev`, the server will restart everytime you make a change in your code.
+* `npm run start`, run dev server
+* `npm run watch:dev`, the server will restart on each code change
 
 
