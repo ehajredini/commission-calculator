@@ -1,7 +1,9 @@
 import CashInCommission from '../services/cash-in-commission';
-import RoundNumberUtil from '../utils/round-number-util';
+import Utils from '../utils/utils';
 
 describe('CashInCommission', () => {
+  const cashInConfig = { percents: 0.03, max: { amount: 5, currency: 'EUR' } };
+
   it('should calculate commission', () => {
     const inputData = {
       date: '2016-01-05',
@@ -14,8 +16,8 @@ describe('CashInCommission', () => {
       },
     };
 
-    const commission = new CashInCommission(inputData).calculate();
-    expect(RoundNumberUtil.round(commission)).toEqual('0.06');
+    const commission = new CashInCommission(inputData, cashInConfig).calculate();
+    expect(Utils.round(commission)).toEqual('0.06');
   });
 
   it('should calculate max commission', () => {
@@ -30,7 +32,7 @@ describe('CashInCommission', () => {
       },
     };
 
-    const commission = new CashInCommission(inputData).calculate();
-    expect(RoundNumberUtil.round(commission)).toEqual('5.00');
+    const commission = new CashInCommission(inputData, cashInConfig).calculate();
+    expect(Utils.round(commission)).toEqual('5.00');
   });
 });

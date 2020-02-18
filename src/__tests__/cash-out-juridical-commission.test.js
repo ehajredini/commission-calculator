@@ -1,7 +1,9 @@
-import CashOutJuridicalCommission from '../services/cash-out-juridical-commisssion';
-import RoundNumberUtil from '../utils/round-number-util';
+import CashOutJuridicalCommission from '../services/cash-out-juridical-commission';
+import Utils from '../utils/utils';
 
 describe('CashOutJuridicalCommission', () => {
+  const cashOutJuridicalConf = { percents: 0.3, min: { amount: 0.5, currency: 'EUR' } };
+
   it('should calculate commission', () => {
     const inputData = {
       date: '2016-01-05',
@@ -14,8 +16,8 @@ describe('CashOutJuridicalCommission', () => {
       },
     };
 
-    const commission = new CashOutJuridicalCommission(inputData).calculate();
-    expect(RoundNumberUtil.round(commission)).toEqual('3.00');
+    const commission = new CashOutJuridicalCommission(inputData, cashOutJuridicalConf).calculate();
+    expect(Utils.round(commission)).toEqual('3.00');
   });
 
   it('should calculate min commission', () => {
@@ -30,7 +32,7 @@ describe('CashOutJuridicalCommission', () => {
       },
     };
 
-    const commission = new CashOutJuridicalCommission(inputData).calculate();
-    expect(RoundNumberUtil.round(commission)).toEqual('0.50');
+    const commission = new CashOutJuridicalCommission(inputData, cashOutJuridicalConf).calculate();
+    expect(Utils.round(commission)).toEqual('0.50');
   });
 });

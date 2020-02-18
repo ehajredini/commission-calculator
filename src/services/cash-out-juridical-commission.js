@@ -1,6 +1,6 @@
 import Utils from '../utils/utils';
 
-export default class CashInCommission {
+export default class CashOutJuridicalCommission {
   constructor(inputData, conf) {
     this.data = inputData;
     this.conf = conf;
@@ -8,8 +8,8 @@ export default class CashInCommission {
 
   calculate() {
     const commission = this.data.operation.amount * Utils.percentToDecimal(this.conf.percents);
-    if (commission > this.conf.max.amount) {
-      return this.conf.max.amount;
+    if (commission < this.conf.min.amount) {
+      return this.conf.min.amount;
     }
 
     return commission;

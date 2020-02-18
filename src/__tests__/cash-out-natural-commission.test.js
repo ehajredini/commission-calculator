@@ -1,7 +1,9 @@
 import CashOutNaturalCommission from '../services/cash-out-natural-commission';
-import RoundNumberUtil from '../utils/round-number-util';
+import Utils from '../utils/utils';
 
 describe('CashOutNaturalCommission', () => {
+  const cashOutNaturalConf = { percents: 0.3, week_limit: { amount: 1000, currency: 'EUR' } };
+
   it('should be free of charge under 1000', () => {
     const inputData = {
       date: '2016-01-05',
@@ -14,8 +16,8 @@ describe('CashOutNaturalCommission', () => {
       },
     };
 
-    const commission = new CashOutNaturalCommission(inputData).calculate();
-    expect(RoundNumberUtil.round(commission)).toEqual('0.00');
+    const commission = new CashOutNaturalCommission(inputData, cashOutNaturalConf).calculate();
+    expect(Utils.round(commission)).toEqual('0.00');
   });
 
   it('should calculate commission for exceed amount', () => {
@@ -30,7 +32,7 @@ describe('CashOutNaturalCommission', () => {
       },
     };
 
-    const commission = new CashOutNaturalCommission(inputData).calculate();
-    expect(RoundNumberUtil.round(commission)).toEqual('3.00');
+    const commission = new CashOutNaturalCommission(inputData, cashOutNaturalConf).calculate();
+    expect(Utils.round(commission)).toEqual('3.00');
   });
 });

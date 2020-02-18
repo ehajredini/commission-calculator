@@ -1,15 +1,15 @@
 import moment from 'moment';
+import Utils from '../utils/utils';
 
 const consumedWeekLimit = [];
 
 export default class CashOutNaturalCommission {
-  constructor(inputData) {
+  constructor(inputData, conf) {
     // Make Monday start of the week
     moment.updateLocale('en', { week: { dow: 1 } });
 
-    this.commissionFee = 0.003;
-    this.weekLimitAmount = 1000;
     this.data = inputData;
+    this.conf = conf;
   }
 
   calculate() {
@@ -18,10 +18,10 @@ export default class CashOutNaturalCommission {
 
     if (consumedLimitItem) {
       consumedLimitItem.amount += this.data.operation.amount;
-      if (consumedLimitItem.amount <= this.weekLimitAmount) {
+      if (consumedLimitItem.amount <= this.conf.week_limit.amount) {
         return 0;
       }
-      return this.data.operation.amount * this.commissionFee;
+      return this.data.operation.amount * Utils.percentToDecimal(this.conf.percents);
     }
 
     consumedWeekLimit.push({
@@ -29,9 +29,11 @@ export default class CashOutNaturalCommission {
       amount: this.data.operation.amount,
     });
 
-    if (this.data.operation.amount <= this.weekLimitAmount) {
+    if (this.data.operation.amount <= this.conf.week_limit.amount) {
       return 0;
     }
-    return (this.data.operation.amount - this.weekLimitAmount) * this.commissionFee;
+
+    return (this.data.operation.amount - this.conf.week_limit.amount)
+      * Utils.percentToDecimal(this.conf.percents);
   }
 }

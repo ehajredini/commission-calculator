@@ -4,31 +4,38 @@ import UserType from '../constants/user-type';
 import Currencies from '../constants/currencies';
 import CashInCommission from './cash-in-commission';
 import CashOutNaturalCommission from './cash-out-natural-commission';
-import CashOutJuridicalCommission from './cash-out-juridical-commisssion';
-import RoundNumberUtil from '../utils/round-number-util';
+import CashOutJuridicalCommission from './cash-out-juridical-commission';
+import Utils from '../utils/utils';
 
 export default class CommissionCalculator {
-  constructor(inputData) {
+  constructor(inputData, { cashInConf, cashOutNaturalConf, cashOutJuridicalConf }) {
     this.data = inputData;
+    this.cashInConf = cashInConf;
+    this.cashOutNaturalConf = cashOutNaturalConf;
+    this.cashOutJuridicalConf = cashOutJuridicalConf;
     this.validateData();
   }
 
   calculate() {
     if (this.data.type === CommissionType.CASH_IN) {
-      const commission = new CashInCommission(this.data).calculate();
-      return RoundNumberUtil.round(commission);
+      const commission = new CashInCommission(this.data, this.cashInConf).calculate();
+      return Utils.round(commission);
     }
 
     if (this.data.type === CommissionType.CASH_OUT
       && this.data.user_type === UserType.NATURAL) {
-      const commission = new CashOutNaturalCommission(this.data).calculate();
-      return RoundNumberUtil.round(commission);
+      const commission = new CashOutNaturalCommission(
+        this.data, this.cashOutNaturalConf,
+      ).calculate();
+      return Utils.round(commission);
     }
 
     if (this.data.type === CommissionType.CASH_OUT
       && this.data.user_type === UserType.JURIDICAL) {
-      const commission = new CashOutJuridicalCommission(this.data).calculate();
-      return RoundNumberUtil.round(commission);
+      const commission = new CashOutJuridicalCommission(
+        this.data, this.cashOutJuridicalConf,
+      ).calculate();
+      return Utils.round(commission);
     }
 
     return null;
