@@ -33,6 +33,6 @@ describe('CashOutNaturalCommission', () => {
     };
 
     const commission = new CashOutNaturalCommission(inputData, cashOutNaturalConf).calculate();
-    expect(Utils.round(commission)).toEqual('3.00');
+    expect(Utils.round(commission)).toEqual('0.60');
   });
 });
